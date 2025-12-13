@@ -1,23 +1,33 @@
 package org.example.Memory;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 
 /**
  * The IMemory class represents an abstract memory management system.
  * It provides methods for allocating and freeing memory blocks.
  */
-public abstract class AbstractMemoryManagment {
+public abstract class AbstractMemoryManagement {
 
     /**
      * Storage for memory blocks, simulating physical memory
      */
-    private final ArrayList<MemoryBlock> physicalMemory;
+    private ArrayList<MemoryBlock> physicalMemory;
+    @Getter
+    private boolean isInitialized = false;
 
-    public AbstractMemoryManagment(int size) {
+    public void initMemory(int size) {
         this.physicalMemory = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             this.physicalMemory.add(new MemoryBlock());
         }
+        isInitialized = true;
+    }
+
+    public void resetMemory() {
+        this.physicalMemory = null;
+        isInitialized = false;
     }
 
     public ArrayList<MemoryBlock> getMemory() {
