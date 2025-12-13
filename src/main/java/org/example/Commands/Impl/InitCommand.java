@@ -1,8 +1,12 @@
-package org.example.Commands;
+package org.example.Commands.Impl;
 
+import org.example.Commands.AbstractCommand;
+import org.example.Commands.CommandsResult;
 import org.example.Memory.AbstractMemoryManagement;
 
 public class InitCommand extends AbstractCommand {
+
+    private int totalMemorySize;
 
     public InitCommand(AbstractMemoryManagement memory) {
         super(memory);
@@ -10,7 +14,7 @@ public class InitCommand extends AbstractCommand {
 
     @Override
     public CommandsResult execute(String[] args) {
-        var validationResult = validate(args);
+        var validationResult = validateArgs(args);
         if (!validationResult.isSuccess()) {
             return validationResult;
         }
@@ -19,27 +23,27 @@ public class InitCommand extends AbstractCommand {
             return CommandsResult.Failure("Memory has already been initialized.");
         }
 
-        // the convert is safe here because of the validation step
-        int totalMemorySize = Integer.parseInt(args[0]);
         memory.initMemory(totalMemorySize);
 
         return CommandsResult.Success();
     }
 
     @Override
-    public CommandsResult validate(String[] args) {
+    protected CommandsResult validateArgs(String[] args) {
         if (args.length != 1) {
             return CommandsResult.Failure("Init command requires exactly one argument: <total_memory_size>");
         }
 
-        try {
-            int totalMemorySize = Integer.parseInt(args[0]);
-            if (totalMemorySize <= 0) {
-                return CommandsResult.Failure("Total memory size must be a positive integer.");
-            }
-            return CommandsResult.Success("Init command validated successfully.");
-        } catch (NumberFormatException e) {
-            return CommandsResult.Failure("Total memory size must be a valid integer.");
+        if (!args[0].matches("\\d+")) {
+            return CommandsResult.Failure("Argument <size> must be a non-negative integer.");
         }
+        totalMemorySize = Integer.parseInt(args[0]);
+
+        if (totalMemorySize <= 0) {
+            return CommandsResult.Failure("Total memory size must be greater than zero.");
+        }
+
+
+        return CommandsResult.Success();
     }
 }

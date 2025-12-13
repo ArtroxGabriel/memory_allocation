@@ -1,15 +1,13 @@
 package org.example.Commands;
 
 
+import lombok.AllArgsConstructor;
 import org.example.Memory.AbstractMemoryManagement;
 
+@AllArgsConstructor
 public abstract class AbstractCommand {
 
     protected final AbstractMemoryManagement memory;
-
-    public AbstractCommand(AbstractMemoryManagement memory) {
-        this.memory = memory;
-    }
 
     /**
      * Executes the command with the given arguments
@@ -25,5 +23,5 @@ public abstract class AbstractCommand {
      * @param args the arguments to validate
      * @return result {@link CommandsResult} of the validation
      */
-    abstract public CommandsResult validate(String[] args);
+    abstract protected CommandsResult validateArgs(String[] args);
 }
