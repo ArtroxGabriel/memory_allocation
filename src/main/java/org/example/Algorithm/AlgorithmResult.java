@@ -1,20 +1,22 @@
 package org.example.Algorithm;
 
 public class AlgorithmResult {
-    private long startAddress;
+    private int startAddress;
+    private int blockId;
 
     private AlgorithmError error;
 
-    private AlgorithmResult(long startAddress) {
+    private AlgorithmResult(int startAddress, int blockId) {
         this.startAddress = startAddress;
+        this.blockId = blockId;
     }
 
     private AlgorithmResult(AlgorithmError error) {
         this.error = error;
     }
 
-    public static AlgorithmResult Success(long startAddress) {
-        return new AlgorithmResult(startAddress);
+    public static AlgorithmResult Success(int startAddress, int blockId) {
+        return new AlgorithmResult(startAddress, blockId);
     }
 
     public static AlgorithmResult Failure(String message) {
@@ -25,11 +27,11 @@ public class AlgorithmResult {
         return error == null;
     }
 
-    public long getStartAddressOrElseThrow() throws IllegalStateException {
+    public AlgorithmData getResultOrElseThrow() throws IllegalStateException {
         if (!isSuccess()) {
             throw new IllegalStateException("Cannot get start address from a failed algorithm result.");
         }
-        return startAddress;
+        return new AlgorithmData(startAddress, blockId);
     }
 
     public AlgorithmError getErrorOrElseThrow() throws IllegalStateException {
@@ -40,6 +42,9 @@ public class AlgorithmResult {
         return error;
     }
 
+
+    public record AlgorithmData(int startAddress, int blockId) {
+    }
 
     public record AlgorithmError(String message) {
     }

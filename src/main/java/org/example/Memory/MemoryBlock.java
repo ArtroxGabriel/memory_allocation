@@ -10,18 +10,18 @@ import org.example.Enum.MemoryBlockStatus;
  */
 @Getter
 public class MemoryBlock {
-    static long nextId = 0;
     /**
      * the unique id of the memory block
      */
-    private final long id = nextId++;
+    private int id;
 
     /**
      * The status of the memory block
      */
     private MemoryBlockStatus status = MemoryBlockStatus.FREE;
 
-    public void allocate(long processId) {
+    public void allocate(int id) {
+        this.id = id;
         this.status = MemoryBlockStatus.ALLOCATED;
     }
 
