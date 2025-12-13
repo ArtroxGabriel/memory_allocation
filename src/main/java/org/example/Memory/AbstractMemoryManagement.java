@@ -38,11 +38,10 @@ public abstract class AbstractMemoryManagement {
     /**
      * Frees a block of memory starting from startIndex of given size
      *
-     * @param startIndex the starting index of the memory block to free
-     * @param size       the size of the memory block to free
+     * @param id the id of the memory block to free
      * @return true if the memory was successfully freed, false otherwise
      */
-    abstract boolean freeMemory(int startIndex, int size);
+    public abstract boolean freeMemory(int id);
 
     /**
      * Allocates a block of memory starting from startIndex of given size
@@ -51,5 +50,5 @@ public abstract class AbstractMemoryManagement {
      * @param size       the size of the memory block to allocate
      * @return true if the memory was successfully allocated, false otherwise
      */
-    abstract boolean allocateMemory(int startIndex, int size);
+    public abstract boolean allocateMemory(int startIndex, int size);
 }

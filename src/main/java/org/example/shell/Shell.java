@@ -2,7 +2,7 @@ package org.example.shell;
 
 import lombok.extern.log4j.Log4j2;
 import org.example.Commands.AbstractCommand;
-import org.example.Commands.InitCommand;
+import org.example.Commands.Impl.*;
 import org.example.Enum.CommandsEnum;
 import org.example.Memory.AbstractMemoryManagement;
 import org.example.Memory.MemoryManagement;
@@ -26,9 +26,16 @@ public class Shell implements AutoCloseable {
         AbstractMemoryManagement memory = new MemoryManagement();
 
         commands.put(CommandsEnum.INIT, new InitCommand(memory));
+        commands.put(CommandsEnum.ALLOC, new AllocCommand(memory));
+        commands.put(CommandsEnum.FREE_ID, new FreeIdCommand(memory));
+        commands.put(CommandsEnum.SHOW, new ShowCommand(memory));
+        commands.put(CommandsEnum.STATS, new StatsCommand(memory));
+        commands.put(CommandsEnum.RESET, new ResetCommand(memory));
+        commands.put(CommandsEnum.HELP, new HelpCommand(memory));
     }
 
     public int start() {
+        var none = new NoneCommand();
         String version = "0.1.0";
         String header = "=====================================\n" +
                 "        MemAllocShell v" + version + "\n" +
@@ -43,19 +50,19 @@ public class Shell implements AutoCloseable {
             var result = parser.parse(commandStr);
             if (!result.isSuccess()) {
                 var error = result.getErrorOrElseThrow();
-                System.out.println("Erro ao analisar o comando: " + error.message());
+                System.out.println("Error on parse command: " + error.message());
                 continue;
             }
 
             var parsedData = result.getResultOrElseThrow();
 
-            if (parsedData.command().equals(CommandsEnum.EXIT)){
+            if (parsedData.command().equals(CommandsEnum.EXIT)) {
                 running = false;
                 System.out.println("Exiting MemAllocShell. Goodbye!");
                 continue;
             }
 
-            var command = commands.get(parsedData.command());
+            var command = commands.getOrDefault(parsedData.command(), none);
             var commandResult = command.execute(parsedData.args());
 
             if (!commandResult.getMessage().isBlank()) {
