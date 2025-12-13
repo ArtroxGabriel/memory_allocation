@@ -22,6 +22,10 @@ public class AllocCommand extends AbstractCommand {
             return validationResult;
         }
 
+        if (!memory.isInitialized()) {
+            return CommandsResult.Failure("Memory is not initialized.");
+        }
+
         var algorithm = AlgorithmFactory.getAlgorithm(algorithmEnum);
 
         var result = algorithm.selectMemoryBlock(memory.getMemory(), size);
@@ -31,9 +35,9 @@ public class AllocCommand extends AbstractCommand {
 
         var algorithmResult = result.getResultOrElseThrow();
 
-        boolean ok = memory.allocateMemory(algorithmResult.startAddress(), size);
-        if (!ok) {
-            return CommandsResult.Failure("Allocation failed: Unable to allocate memory block.");
+        var memoryResult = memory.allocateMemory(algorithmResult.startAddress(), size);
+        if (!memoryResult.isSuccess()) {
+            return CommandsResult.Failure("Allocation failed: " + memoryResult.getMessage());
         }
 
         return CommandsResult.Success();
@@ -46,15 +50,19 @@ public class AllocCommand extends AbstractCommand {
 
         }
 
-        if (!args[0].matches("\\d+")) {
-            return CommandsResult.Failure("First argument <size> must be a non-negative integer.");
-        }
-        size = Integer.parseInt(args[0]);
-
         try {
+            long parsedSize = Long.parseLong(args[0]);
+            if (parsedSize > Integer.MAX_VALUE) {
+                return CommandsResult.Failure("First argument <size> is too large. Maximum allowed is " + Integer.MAX_VALUE + ".");
+            }
+            size = (int) parsedSize;
+
+
             algorithmEnum = AlgorithmEnum.valueOf(args[1].toUpperCase());
 
             return CommandsResult.Success();
+        } catch (NumberFormatException e) {
+            return CommandsResult.Failure("First argument <size> is not a valid integer.");
         } catch (IllegalArgumentException e) {
             return CommandsResult.Failure("Second argument <alg> must be one of the following: first_fit, best_fit, worst_fit.");
         }

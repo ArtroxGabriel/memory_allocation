@@ -20,6 +20,6 @@ public class ShowCommand extends AbstractCommand {
 
     @Override
     protected CommandsResult validateArgs(String[] args) {
-        return null;
+        throw new IllegalStateException("Show command does not require validation.");
     }
 }

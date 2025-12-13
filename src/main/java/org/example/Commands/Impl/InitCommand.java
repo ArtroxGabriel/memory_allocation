@@ -31,19 +31,25 @@ public class InitCommand extends AbstractCommand {
     @Override
     protected CommandsResult validateArgs(String[] args) {
         if (args.length != 1) {
-            return CommandsResult.Failure("Init command requires exactly one argument: <total_memory_size>");
+            return CommandsResult.Failure("Init command requires exactly one argument: <memory_size>");
         }
 
-        if (!args[0].matches("\\d+")) {
-            return CommandsResult.Failure("Argument <size> must be a non-negative integer.");
+        try {
+            long memorySize = Long.parseLong(args[0]);
+            if (memorySize > Integer.MAX_VALUE) {
+                return CommandsResult.Failure("First argument <size> is too large. Maximum allowed is " + Integer.MAX_VALUE + ".");
+            }
+            totalMemorySize = (int) memorySize;
+
+            if (totalMemorySize <= 0) {
+                return CommandsResult.Failure("Total memory size must be greater than zero.");
+            }
+
+            return CommandsResult.Success();
+        } catch (NumberFormatException e) {
+            return CommandsResult.Failure("First argument <size> is not a valid integer.");
         }
-        totalMemorySize = Integer.parseInt(args[0]);
-
-        if (totalMemorySize <= 0) {
-            return CommandsResult.Failure("Total memory size must be greater than zero.");
-        }
 
 
-        return CommandsResult.Success();
     }
 }

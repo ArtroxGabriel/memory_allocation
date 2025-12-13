@@ -22,9 +22,9 @@ public class FreeIdCommand extends AbstractCommand {
             return CommandsResult.Failure("Memory is not initialized.");
         }
 
-        var ok = memory.freeMemory(id);
-        if (!ok) {
-            return CommandsResult.Failure("Failed to free memory with id " + id + ".");
+        var memoryResult = memory.freeMemory(id);
+        if (!memoryResult.isSuccess()) {
+            return CommandsResult.Failure("Freeing memory failed: " + memoryResult.getMessage());
         }
 
         return CommandsResult.Success();
@@ -36,11 +36,16 @@ public class FreeIdCommand extends AbstractCommand {
             return CommandsResult.Failure("FREE_ID command requires exactly one argument: <id>");
         }
 
-        if (!args[0].matches("\\d+")) {
-            return CommandsResult.Failure("Argument <id> must be a non-negative integer.");
-        }
-        id = Integer.parseInt(args[0]);
+        try {
+            long parsedId = Long.parseLong(args[0]);
+            if (parsedId > Integer.MAX_VALUE) {
+                return CommandsResult.Failure("First argument <id> is too large. Maximum allowed is " + Integer.MAX_VALUE + ".");
+            }
+            id = (int) parsedId;
 
-        return CommandsResult.Success();
+            return CommandsResult.Success();
+        } catch (NumberFormatException e) {
+            return CommandsResult.Failure("First argument <id> is not a valid integer.");
+        }
     }
 }

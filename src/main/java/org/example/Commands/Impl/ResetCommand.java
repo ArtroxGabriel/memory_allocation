@@ -22,6 +22,6 @@ public class ResetCommand extends AbstractCommand {
 
     @Override
     protected CommandsResult validateArgs(String[] args) {
-        return null;
+        throw new IllegalStateException("Reset command does not require validation.");
     }
 }

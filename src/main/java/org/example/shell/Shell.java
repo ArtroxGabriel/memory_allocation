@@ -17,14 +17,13 @@ public class Shell implements AutoCloseable {
     private final Scanner scanner = new Scanner(System.in);
     private final ICommandParser parser = new CommandParser();
     private final HashMap<CommandsEnum, AbstractCommand> commands = new HashMap<>();
+    private final AbstractMemoryManagement memory = new MemoryManagement();
 
     public Shell() {
         initialize();
     }
 
     public void initialize() {
-        AbstractMemoryManagement memory = new MemoryManagement();
-
         commands.put(CommandsEnum.INIT, new InitCommand(memory));
         commands.put(CommandsEnum.ALLOC, new AllocCommand(memory));
         commands.put(CommandsEnum.FREE_ID, new FreeIdCommand(memory));

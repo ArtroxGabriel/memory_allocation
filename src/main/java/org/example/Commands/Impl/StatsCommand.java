@@ -20,6 +20,6 @@ public class StatsCommand extends AbstractCommand {
 
     @Override
     protected CommandsResult validateArgs(String[] args) {
-        return null;
+        throw new IllegalStateException("Stats command does not require validation.");
     }
 }
