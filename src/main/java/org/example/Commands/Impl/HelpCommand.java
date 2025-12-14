@@ -7,8 +7,8 @@ import org.example.Memory.AbstractMemoryManagement;
 
 public class HelpCommand extends AbstractCommand {
 
-    public HelpCommand(AbstractMemoryManagement memory) {
-        super(memory);
+    public HelpCommand() {
+        super(null);
     }
 
     @Override
