@@ -1,36 +1,22 @@
 package org.example.shell;
 
-import lombok.extern.log4j.Log4j2;
 import org.example.Commands.AbstractCommand;
-import org.example.Commands.Impl.*;
+import org.example.Commands.Impl.NoneCommand;
 import org.example.Enum.CommandsEnum;
-import org.example.Memory.AbstractMemoryManagement;
-import org.example.Memory.MemoryManagement;
-import org.example.Parser.CommandParser;
 import org.example.Parser.ICommandParser;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-@Log4j2
 public class Shell implements AutoCloseable {
-    private final Scanner scanner = new Scanner(System.in);
-    private final ICommandParser parser = new CommandParser();
-    private final HashMap<CommandsEnum, AbstractCommand> commands = new HashMap<>();
-    private final AbstractMemoryManagement memory = new MemoryManagement();
+    private final Scanner scanner;
+    private final ICommandParser parser;
+    private final Map<CommandsEnum, AbstractCommand> commands;
 
-    public Shell() {
-        initialize();
-    }
-
-    public void initialize() {
-        commands.put(CommandsEnum.INIT, new InitCommand(memory));
-        commands.put(CommandsEnum.ALLOC, new AllocCommand(memory));
-        commands.put(CommandsEnum.FREE_ID, new FreeIdCommand(memory));
-        commands.put(CommandsEnum.SHOW, new ShowCommand(memory));
-        commands.put(CommandsEnum.STATS, new StatsCommand(memory));
-        commands.put(CommandsEnum.RESET, new ResetCommand(memory));
-        commands.put(CommandsEnum.HELP, new HelpCommand(memory));
+    public Shell(Scanner scanner, ICommandParser parser, Map<CommandsEnum, AbstractCommand> commands) {
+        this.scanner = scanner;
+        this.parser = parser;
+        this.commands = commands;
     }
 
     public int start() {
