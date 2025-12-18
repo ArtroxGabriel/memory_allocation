@@ -1,5 +1,8 @@
 package org.example.Algorithm;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class AlgorithmResult {
     private int startAddress;
     private int blockId;
