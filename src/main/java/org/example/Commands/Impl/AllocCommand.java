@@ -26,16 +26,7 @@ public class AllocCommand extends AbstractCommand {
             return CommandsResult.Failure("Memory is not initialized.");
         }
 
-        var algorithm = AlgorithmFactory.getAlgorithm(algorithmEnum);
-
-        var result = algorithm.selectMemoryBlock(memory.getMemory(), size);
-        if (!result.isSuccess()) {
-            return CommandsResult.Failure("Allocation failed: " + result.getErrorOrElseThrow().message());
-        }
-
-        var algorithmResult = result.getResultOrElseThrow();
-
-        var memoryResult = memory.allocateMemory(algorithmResult.startAddress(), size);
+        var memoryResult = memory.allocateMemory(size, algorithmEnum);
         if (!memoryResult.isSuccess()) {
             return CommandsResult.Failure("Allocation failed: " + memoryResult.getMessage());
         }

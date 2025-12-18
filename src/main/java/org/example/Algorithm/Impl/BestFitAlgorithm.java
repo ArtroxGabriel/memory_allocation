@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class BestFitAlgorithm implements IAlgorithmStrategy {
     @Override
-    public AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int id, int size) {
+    public AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int size) {
         ArrayList<ArrayList<Integer>> freeBlocks = identifyFreeBlocks(memory);
         if (freeBlocks.isEmpty()) {
             return AlgorithmResult.Failure("Memory is full");
@@ -20,6 +20,6 @@ public class BestFitAlgorithm implements IAlgorithmStrategy {
             return AlgorithmResult.Failure("No suitable memory block found for size " + size);
         }
 
-        return AlgorithmResult.Success(bestIndex, id);
+        return AlgorithmResult.Success(bestIndex);
     }
 }

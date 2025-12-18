@@ -1,25 +1,25 @@
 package org.example.Algorithm;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@Getter
 public class AlgorithmResult {
     private int startAddress;
-    private int blockId;
 
     private AlgorithmError error;
 
-    private AlgorithmResult(int startAddress, int blockId) {
+    private AlgorithmResult(int startAddress) {
         this.startAddress = startAddress;
-        this.blockId = blockId;
     }
 
     private AlgorithmResult(AlgorithmError error) {
         this.error = error;
     }
 
-    public static AlgorithmResult Success(int startAddress, int blockId) {
-        return new AlgorithmResult(startAddress, blockId);
+    public static AlgorithmResult Success(int startAddress) {
+        return new AlgorithmResult(startAddress);
     }
 
     public static AlgorithmResult Failure(String message) {
@@ -34,7 +34,7 @@ public class AlgorithmResult {
         if (!isSuccess()) {
             throw new IllegalStateException("Cannot get start address from a failed algorithm result.");
         }
-        return new AlgorithmData(startAddress, blockId);
+        return new AlgorithmData(startAddress);
     }
 
     public AlgorithmError getErrorOrElseThrow() throws IllegalStateException {
@@ -46,7 +46,7 @@ public class AlgorithmResult {
     }
 
 
-    public record AlgorithmData(int startAddress, int blockId) {
+    public record AlgorithmData(int startAddress) {
     }
 
     public record AlgorithmError(String message) {
