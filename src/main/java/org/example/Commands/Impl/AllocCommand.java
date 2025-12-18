@@ -54,7 +54,7 @@ public class AllocCommand extends AbstractCommand {
         } catch (NumberFormatException e) {
             return CommandsResult.Failure("First argument <size> is not a valid integer.");
         } catch (IllegalArgumentException e) {
-            return CommandsResult.Failure("Second argument <alg> must be one of the following: first_fit, best_fit, worst_fit.");
+            return CommandsResult.Failure("Second argument <alg> must be one of the following: first, best, worst.");
         }
     }
 }

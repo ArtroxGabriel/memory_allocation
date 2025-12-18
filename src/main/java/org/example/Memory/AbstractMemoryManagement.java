@@ -30,6 +30,10 @@ public abstract class AbstractMemoryManagement {
     @Getter
     private boolean isInitialized = false;
 
+    public boolean isFree(int index) {
+        return physicalMemory.get(index).isFree();
+    }
+
     public void initMemory(int size) {
         this.physicalMemory = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
@@ -59,7 +63,7 @@ public abstract class AbstractMemoryManagement {
     /**
      * Allocates a block of memory starting from startIndex of given size
      *
-     * @param size       the size of the memory block to allocate
+     * @param size      the size of the memory block to allocate
      * @param algorithm the algorithm to use for memory allocation
      * @return result of the memory allocation operation
      */
