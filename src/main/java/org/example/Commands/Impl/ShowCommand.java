@@ -41,6 +41,22 @@ public class ShowCommand extends AbstractCommand {
         out.append("]\n");
         out.append(sepLine);
 
+        out.append("\n\nActive Allocations: ");
+        // get active allocations, then for each active show: [id=<id>] @<start> +<size>B (used=<size>B) separated by '|'
+        var activeAllocations = memory.getActiveAllocations();
+        if (activeAllocations.isEmpty()) {
+            out.append("None\n");
+        } else {
+            for (int i = 0; i < activeAllocations.size(); i++) {
+                var alloc = activeAllocations.get(i);
+                out.append("[id=").append(alloc.id()).append("] @").append(alloc.start()).append(" +").append(alloc.size()).append("B (used=").append(alloc.usedSize()).append("B)");
+                if (i < activeAllocations.size() - 1) {
+                    out.append(" | ");
+                }
+            }
+            out.append("\n");
+        }
+
         return CommandsResult.Success(out.toString());
     }
 
