@@ -9,17 +9,22 @@ import java.util.ArrayList;
 public class FirstFitAlgorithm implements IAlgorithmStrategy {
     @Override
     public AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int id, int size) {
-        ArrayList<Integer> possibleAllocations = new ArrayList<>();
+        int consecutiveFree = 0;
+        int startIndex = -1;
 
         for (int i = 0; i < memory.size(); i++) {
             MemoryBlock block = memory.get(i);
             if (block.isFree()) {
-                possibleAllocations.add(i);
-                if (possibleAllocations.size() == size) {
-                    return AlgorithmResult.Success(i, id);
+                if (consecutiveFree == 0) {
+                    startIndex = i;
+                }
+                consecutiveFree++;
+                if (consecutiveFree == size) {
+                    return AlgorithmResult.Success(startIndex, id);
                 }
             } else {
-                possibleAllocations.clear();
+                consecutiveFree = 0;
+                startIndex = -1;
             }
         }
 
