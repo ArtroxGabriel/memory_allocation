@@ -25,13 +25,39 @@ public abstract class AbstractMemoryManagement {
      * Storage for allocation mapping: process ID -> starting index
      */
     @Getter
-    private HashMap<Integer, Integer> allocationMap = new HashMap<>();
+    private final HashMap<Integer, Integer> allocationMap = new HashMap<>();
 
     @Getter
     private boolean isInitialized = false;
 
     public boolean isFree(int index) {
         return physicalMemory.get(index).isFree();
+    }
+
+    public ArrayList<AllocationInfo> getActiveAllocations() {
+        ArrayList<AllocationInfo> allocations = new ArrayList<>();
+
+        // Iterate through the allocation map to get all active allocations
+        for (var entry : allocationMap.entrySet()) {
+            int id = entry.getKey();
+            int startIndex = entry.getValue();
+
+            // Calculate the size by counting consecutive blocks with the same id
+            int size = 0;
+            for (int i = startIndex; i < physicalMemory.size(); i++) {
+                MemoryBlock block = physicalMemory.get(i);
+                if (!block.isFree() && block.getId() == id) {
+                    size++;
+                } else {
+                    break;
+                }
+            }
+
+            // For contiguous allocations, usedSize equals size
+            allocations.add(new AllocationInfo(id, startIndex, size, size));
+        }
+
+        return allocations;
     }
 
     public void initMemory(int size) {
@@ -44,8 +70,9 @@ public abstract class AbstractMemoryManagement {
 
     public void resetMemory() {
         this.physicalMemory = null;
-        this.nextId = 0;
+        this.nextId = 1;
         isInitialized = false;
+        this.allocationMap.clear();
     }
 
     public ArrayList<MemoryBlock> getMemory() {

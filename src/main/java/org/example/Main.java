@@ -6,6 +6,8 @@ import org.example.Memory.AbstractMemoryManagement;
 import org.example.Memory.MemoryManagement;
 import org.example.Parser.CommandParser;
 import org.example.Parser.ICommandParser;
+import org.example.Parser.Validator.CommandValidator;
+import org.example.Parser.Validator.ICommandValidator;
 import org.example.shell.Shell;
 
 import java.util.Map;
@@ -17,7 +19,8 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         AbstractMemoryManagement memoryManagement = new MemoryManagement();
-        ICommandParser parser = new CommandParser();
+        ICommandValidator validator = new CommandValidator();
+        ICommandParser parser = new CommandParser(validator);
         var commands = CommandFactory.createCommands(memoryManagement);
 
         try (var shell = new Shell(scanner, parser, commands)) {

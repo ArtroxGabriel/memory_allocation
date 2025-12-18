@@ -12,7 +12,7 @@ public class CommandValidator implements ICommandValidator {
         return switch (command) {
             case INIT -> validateInit(args);
             case ALLOC -> validateAlloc(args);
-            case FREE_ID -> validateFreeId(args);
+            case FREEID -> validateFreeId(args);
             case SHOW, STATS, RESET, HELP, DO_NOTHING, EXIT -> validateNoArgs(args, command);
             case UNKNOWN -> ValidationResult.failure("Unknown command");
         };
