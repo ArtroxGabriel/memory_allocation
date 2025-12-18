@@ -1,6 +1,8 @@
 package org.example.Memory;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.example.Enum.AlgorithmEnum;
 
 import java.util.ArrayList;
 
@@ -9,7 +11,9 @@ import java.util.ArrayList;
  * It provides methods for allocating and freeing memory blocks.
  */
 public abstract class AbstractMemoryManagement {
-    private int nextId = 0;
+    @Getter
+    @Setter
+    private int nextId = 1;
 
     /**
      * Storage for memory blocks, simulating physical memory
@@ -48,9 +52,9 @@ public abstract class AbstractMemoryManagement {
     /**
      * Allocates a block of memory starting from startIndex of given size
      *
-     * @param startIndex the starting index of the memory block to allocate
      * @param size       the size of the memory block to allocate
+     * @param algorithm the algorithm to use for memory allocation
      * @return result of the memory allocation operation
      */
-    public abstract MemoryManagementResult allocateMemory(int startIndex, int size);
+    public abstract MemoryManagementResult allocateMemory(int size, AlgorithmEnum algorithm);
 }
