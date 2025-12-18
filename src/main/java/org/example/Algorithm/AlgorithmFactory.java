@@ -8,9 +8,9 @@ import org.example.Enum.AlgorithmEnum;
 public class AlgorithmFactory {
     public static IAlgorithmStrategy getAlgorithm(AlgorithmEnum algorithmEnum) {
         return switch (algorithmEnum) {
-            case FIRST_FIT -> new FirstFitAlgorithm();
-            case BEST_FIT -> new BestFitAlgorithm();
-            case WORST_FIT -> new WorstFitAlgorithm();
+            case FIRST -> new FirstFitAlgorithm();
+            case BEST -> new BestFitAlgorithm();
+            case WORST -> new WorstFitAlgorithm();
         };
     }
 }

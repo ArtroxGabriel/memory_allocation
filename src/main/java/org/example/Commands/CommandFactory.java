@@ -12,7 +12,7 @@ public class CommandFactory {
             {
                 put(CommandsEnum.INIT, new InitCommand(memory));
                 put(CommandsEnum.ALLOC, new AllocCommand(memory));
-                put(CommandsEnum.FREE_ID, new FreeIdCommand(memory));
+                put(CommandsEnum.FREEID, new FreeIdCommand(memory));
                 put(CommandsEnum.SHOW, new ShowCommand(memory));
                 put(CommandsEnum.STATS, new StatsCommand(memory));
                 put(CommandsEnum.RESET, new ResetCommand(memory));
