@@ -27,6 +27,7 @@ public class MemoryBlock {
 
 
     public void free() {
+        this.id = -1;
         this.status = MemoryBlockStatus.FREE;
     }
 
