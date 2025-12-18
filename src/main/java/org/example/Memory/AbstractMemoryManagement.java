@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.example.Enum.AlgorithmEnum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The IMemory class represents an abstract memory management system.
@@ -19,6 +20,13 @@ public abstract class AbstractMemoryManagement {
      * Storage for memory blocks, simulating physical memory
      */
     private ArrayList<MemoryBlock> physicalMemory;
+
+    /**
+     * Storage for allocation mapping: process ID -> starting index
+     */
+    @Getter
+    private HashMap<Integer, Integer> allocationMap = new HashMap<>();
+
     @Getter
     private boolean isInitialized = false;
 
@@ -39,7 +47,6 @@ public abstract class AbstractMemoryManagement {
     public ArrayList<MemoryBlock> getMemory() {
         return physicalMemory;
     }
-
 
     /**
      * Frees a block of memory starting from startIndex of given size

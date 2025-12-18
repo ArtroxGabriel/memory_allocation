@@ -1,6 +1,5 @@
 package org.example.Commands.Impl;
 
-import org.example.Algorithm.AlgorithmFactory;
 import org.example.Commands.AbstractCommand;
 import org.example.Commands.CommandsResult;
 import org.example.Enum.AlgorithmEnum;
