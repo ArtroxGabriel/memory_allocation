@@ -12,7 +12,7 @@ public interface IAlgorithmStrategy {
      * @param size the size of the process to allocate
      * @return the result {@link AlgorithmResult} of the selection
      */
-    AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int id, int size);
+    AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int size);
 
     /**
      * Identifies all contiguous free memory blocks.

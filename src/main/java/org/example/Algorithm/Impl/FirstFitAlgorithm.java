@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class FirstFitAlgorithm implements IAlgorithmStrategy {
     @Override
-    public AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int id, int size) {
+    public AlgorithmResult selectMemoryBlock(ArrayList<MemoryBlock> memory, int size) {
         int consecutiveFree = 0;
         int startIndex = -1;
 
@@ -20,7 +20,7 @@ public class FirstFitAlgorithm implements IAlgorithmStrategy {
                 }
                 consecutiveFree++;
                 if (consecutiveFree == size) {
-                    return AlgorithmResult.Success(startIndex, id);
+                    return AlgorithmResult.Success(startIndex);
                 }
             } else {
                 consecutiveFree = 0;
